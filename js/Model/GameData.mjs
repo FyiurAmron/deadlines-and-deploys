@@ -1,12 +1,10 @@
 "use strict";
 
-import { Actor } from "./Actor.mjs";
-
 export class GameData {
     constructor( loader ) {
-        this.actorProtos = undefined;
-        this.playableRaces = undefined;
-        this.locations = undefined;
+        this.actorProtos = null;
+        this.playableRaces = null;
+        this.locations = null;
 
         this.loader = loader;
     }
@@ -18,7 +16,7 @@ export class GameData {
 
         this.actorProtos = actorProtosRaw.slice( 1 )
             .reduce(
-                ( map, x ) => map.set( x[0], new Actor( x ) ),
+                ( map, x ) => map.set( x[0], x ),
                 new Map()
             );
         this.playableRaces = playableRacesRaw.map( x => x[0] );

@@ -14,7 +14,8 @@ export class ViewHandler {
         this.loader = doc.getElementById( "loader" );
         this.content = doc.getElementById( "content" );
 
-        [this.statsDom, this.invDom, this.mainViewDom, this.ctrlView].forEach( x => MiscUtils.domClear( x ) );
+        [this.statsDom, this.invDom, this.mainViewDom, this.ctrlView]
+            .forEach( x => MiscUtils.domClear( x ) );
     }
 
     hidePreloader() {

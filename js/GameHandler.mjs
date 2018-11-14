@@ -1,21 +1,69 @@
 "use strict";
 
 import { APP_NAME } from "./const.mjs";
-import { RaceSelection as RaceSelectionView } from "./View/RaceSelection.mjs";
-import { Stats as StatsView } from "./View/Stats.mjs";
+
 import { MiscUtils } from "./Util/MiscUtils.mjs";
-import { Room } from "./Model/Room.mjs";
+
+import { Stats as StatsView } from "./View/Stats.mjs";
+
+import { RaceSelection as RaceSelectionViewController } from "./View/RaceSelection.mjs";
+import { DeadHero as DeadHeroViewController } from "./View/DeadHero.mjs";
+import { Explore as ExploreViewController } from "./View/Explore.mjs";
+
+import { Room as RoomModel } from "./Model/Room.mjs";
+import { Actor as ActorModel } from "./Model/Actor.mjs";
 
 export class GameHandler {
     constructor( viewHandler, gameData ) {
         this.viewHandler = viewHandler;
         this.gameData = gameData;
-        this.state = undefined;
-        this.hero = undefined;
-        this.room = undefined;
+        this.state = null;
+        this.hero = null;
+        this.room = null;
 
         this.stats = new StatsView( this.viewHandler.statsDom );
     }
+
+    preGame() {
+        RaceSelectionViewController.show(
+            this.viewHandler.ctrlView,
+            this.gameData.playableRaces,
+            this.startGame.bind( this )
+        );
+    }
+
+    createRandomRoom() {
+        return new RoomModel( MiscUtils.randomElement( this.gameData.locations ) );
+    }
+
+    startGame( heroProto ) {
+        this.hero = new ActorModel( this.gameData.actorProtos.get( heroProto ) );
+        this.hero.xp = 0;
+        this.room = this.createRandomRoom();
+        this.setState( "exploring" );
+        MiscUtils.domClear( this.viewHandler.ctrlView );
+        this.update();
+        this.explore();
+    }
+
+    explore() {
+        ExploreViewController.show( this.viewHandler.ctrlView, x => {
+            this.room = this.createRandomRoom();
+            this.update();
+        } );
+    }
+
+    die() {
+        this.state = "dead";
+
+        this.viewHandler.setMainViewContent( "You are dead." );
+
+        DeadHeroViewController.show(
+            this.viewHandler.ctrlView,
+            this.preGame().bind( this )
+        );
+    }
+
 
     async init() {
         await this.gameData.init();
@@ -24,17 +72,7 @@ export class GameHandler {
 
         this.setState( "preparing" );
 
-        RaceSelectionView.show(
-            this.viewHandler.statsDom,
-            this.gameData.playableRaces,
-            x => {
-                this.hero = this.gameData.actorProtos.get( x );
-                this.room = new Room( MiscUtils.randomElement( this.gameData.locations ) );
-                this.setState( "exploring" );
-                this.update();
-            }
-        );
-
+        this.preGame();
     }
 
     setState( state ) {
@@ -56,5 +94,10 @@ export class GameHandler {
     update() {
         this.stats.update( this.hero );
         this.viewHandler.setMainViewContent( this.room.description );
+        switch ( this.state ) {
+            case "exploring":
+
+                break;
+        }
     }
 }

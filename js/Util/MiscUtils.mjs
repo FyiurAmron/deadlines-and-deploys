@@ -2,7 +2,7 @@
 
 export class MiscUtils {
     static domClear( dom ) {
-        while ( dom.firstChild ) {
+        while ( dom.firstChild !== null ) {
             dom.firstChild.remove();
         }
     }

@@ -1,11 +1,11 @@
 export class Inventory {
     constructor() {
-        //this.head = undefined;
-        // this.cape = undefined;
-        // this.ring = undefined;
-        this.armor = undefined;
-        this.weapon = undefined;
-        //this.weapon = undefined;
+        //this.head = null;
+        // this.cape = null;
+        // this.ring = null;
+        this.armor = null;
+        this.weapon = null;
+        //this.weapon = null;
     }
 
     set( slot, item ) {
