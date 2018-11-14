@@ -1,7 +1,8 @@
 export class Actor {
     constructor( proto ) {
-        const p = proto.slice();
+        const p = proto.slice().reverse();
 
+        this.name = p.pop();
         this.hp = p.pop();
         this.mp = p.pop();
         this.xp = p.pop();

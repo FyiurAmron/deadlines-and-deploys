@@ -1,16 +1,18 @@
 import { MiscUtils } from "../Util/MiscUtils.mjs";
+import { Stats } from "./Stats.mjs";
 
 export class RaceSelection {
-    static show( dom, availableRaces ) {
-        MiscUtils.domClear( dom );
+    static show( statsDom, availableRaces, callback ) {
+        MiscUtils.domClear( statsDom );
 
         availableRaces.forEach( x => {
             const btn = document.createElement( "BUTTON" );
             btn.innerText = x;
             btn.addEventListener( "click", evt => {
-                console.log( x )
+                const hero = callback( x, evt );
+                Stats.update( statsDom, hero )
             } );
-            dom.appendChild( btn );
+            statsDom.appendChild( btn );
         } );
     }
 }

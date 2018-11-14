@@ -7,6 +7,7 @@ import { RaceSelection } from "./View/RaceSelection.mjs";
 import { MiscUtils } from "./Util/MiscUtils.mjs";
 
 async function onLoad() {
+    const statsDom = document.getElementById( "status" );
     const invDom = document.getElementById( "inv" );
     const viewDom = document.getElementById( "view" );
     const ctrlView = document.getElementById( "ctrl" );
@@ -26,7 +27,9 @@ async function onLoad() {
         );
     const playableRaces = playableRacesRaw.map( x => x[0] );
 
-    RaceSelection.show( viewDom, playableRaces );
+    var hero = undefined;
+
+    RaceSelection.show( statsDom, playableRaces, x => ( hero = actorProtos.get( x ) ) );
 
     document.getElementById( "loader" ).style.display = "none";
     document.getElementById( "content" ).style.display = "block";
