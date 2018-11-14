@@ -6,7 +6,9 @@ export class RaceSelection {
         MiscUtils.domClear( statsDom );
 
         availableRaces.forEach( x => {
-            const btn = document.createElement( "BUTTON" );
+            const btn = document.createElement( "A" );
+            btn.href = "#";
+            btn.style.display = "block";
             btn.innerText = x;
             btn.addEventListener( "click", evt => {
                 const hero = callback( x, evt );
