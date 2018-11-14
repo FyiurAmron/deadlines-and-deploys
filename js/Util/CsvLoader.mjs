@@ -8,9 +8,10 @@ export class CsvLoader {
             return null;
         }
         const csv = await response.text();
-        const rows = csv.split( /\r?\n/ );
-        return rows.map( x => x
-            .split( "," )
-            .map( x => x.trim() ) );
+        return csv.split( /\r?\n/ )
+            .map( x => x
+                .split( "," )
+                .map( x => x.trim() )
+            );
     }
 }
