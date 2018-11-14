@@ -1,3 +1,5 @@
+"use strict";
+
 export class Actor {
     constructor( proto ) {
         const p = proto.slice().reverse();
@@ -14,9 +16,4 @@ export class Actor {
         this.wisdom = p.pop();
         this.intelligence = p.pop();
     }
-
-    test() {
-        //this.
-    }
-
 }

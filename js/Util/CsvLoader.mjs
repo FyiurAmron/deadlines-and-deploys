@@ -1,8 +1,14 @@
-export class CsvLoader {
+"use strict";
+
+import { ILoader } from "./Loader.mjs";
+
+export class CsvLoader extends ILoader {
     constructor() {
+        super();
     }
 
-    static async load( csvPath ) {
+    // noinspection JSMethodCanBeStatic
+    async load( csvPath ) {
         const response = await fetch( csvPath );
         if ( !response.ok ) {
             return null;

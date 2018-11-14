@@ -1,3 +1,5 @@
+"use strict";
+
 import { MiscUtils } from "../Util/MiscUtils.mjs";
 import { Stats } from "./Stats.mjs";
 
@@ -11,8 +13,7 @@ export class RaceSelection {
             btn.style.display = "block";
             btn.innerText = x;
             btn.addEventListener( "click", evt => {
-                const hero = callback( x, evt );
-                Stats.update( statsDom, hero )
+                callback( x, evt );
             } );
             statsDom.appendChild( btn );
         } );

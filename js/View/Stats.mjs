@@ -1,14 +1,20 @@
+"use strict";
+
 import { MiscUtils } from "../Util/MiscUtils.mjs";
 
 export class Stats {
-    static update( statsDom, hero ) {
-        MiscUtils.domClear( statsDom );
+    constructor( statsDom ) {
+        this.statsDom = statsDom;
+    }
+
+    update( hero ) {
+        MiscUtils.domClear( this.statsDom );
         Object.entries( hero ).forEach(
             ( [k, v] ) => {
                 const text = document.createTextNode( k.toUpperCase() + ": " + v );
                 const p = document.createElement( "P" );
                 p.appendChild( text );
-                statsDom.appendChild( p );
+                this.statsDom.appendChild( p );
             }
         );
     }
