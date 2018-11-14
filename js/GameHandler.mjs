@@ -1,8 +1,10 @@
 "use strict";
 
+import { APP_NAME } from "./const.mjs";
 import { RaceSelection as RaceSelectionView } from "./View/RaceSelection.mjs";
 import { Stats as StatsView } from "./View/Stats.mjs";
-import { APP_NAME } from "./const.mjs";
+import { MiscUtils } from "./Util/MiscUtils.mjs";
+import { Room } from "./Model/Room.mjs";
 
 export class GameHandler {
     constructor( viewHandler, gameData ) {
@@ -10,6 +12,7 @@ export class GameHandler {
         this.gameData = gameData;
         this.state = undefined;
         this.hero = undefined;
+        this.room = undefined;
 
         this.stats = new StatsView( this.viewHandler.statsDom );
     }
@@ -26,6 +29,7 @@ export class GameHandler {
             this.gameData.playableRaces,
             x => {
                 this.hero = this.gameData.actorProtos.get( x );
+                this.room = new Room( MiscUtils.randomElement( this.gameData.locations ) );
                 this.setState( "exploring" );
                 this.update();
             }
@@ -42,10 +46,6 @@ export class GameHandler {
     static update( ctrlDom, state ) {
 
         switch ( state ) {
-            case "preparing":
-                break;
-            case "exploring":
-                break;
             case "fighting":
                 break;
             case "dead":
@@ -55,5 +55,6 @@ export class GameHandler {
     */
     update() {
         this.stats.update( this.hero );
+        this.viewHandler.setMainViewContent( this.room.description );
     }
 }

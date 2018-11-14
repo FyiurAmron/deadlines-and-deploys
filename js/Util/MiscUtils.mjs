@@ -6,4 +6,8 @@ export class MiscUtils {
             dom.firstChild.remove();
         }
     }
+
+    static randomElement( array ) {
+        return array[Math.floor( Math.random() * array.length )];
+    }
 }
