@@ -9,12 +9,13 @@ export class ViewHandler {
         this.statsDom = doc.getElementById( "status" );
         this.invDom = doc.getElementById( "inv" );
         this.mainViewDom = doc.getElementById( "view" );
-        this.ctrlView = doc.getElementById( "ctrl" );
+        this.ctrlDom = doc.getElementById( "ctrl" );
+        this.msgDom = doc.getElementById( "msg" );
 
         this.loader = doc.getElementById( "loader" );
         this.content = doc.getElementById( "content" );
 
-        [this.statsDom, this.invDom, this.mainViewDom, this.ctrlView]
+        [this.statsDom, this.invDom, this.mainViewDom, this.ctrlDom, this.msgDom]
             .forEach( x => MiscUtils.domClear( x ) );
     }
 
@@ -30,4 +31,9 @@ export class ViewHandler {
     setMainViewContent( content ) {
         this.mainViewDom.innerText = content;
     }
+
+    setMessage( msg ) {
+        this.msgDom.innerText = msg;
+    }
+
 }

@@ -9,6 +9,11 @@ export class Stats {
 
     update( hero ) {
         MiscUtils.domClear( this.statsDom );
+
+        if ( hero === null ) {
+            return;
+        }
+
         Object.entries( hero ).forEach(
             ( [k, v] ) => {
                 const text = document.createTextNode( k.toUpperCase() + ": " + v );
