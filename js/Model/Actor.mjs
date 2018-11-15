@@ -63,8 +63,10 @@ export class Actor {
 
         this.hpMax += this.level;
         this.mpMax += this.level;
-        this.hp += this.level;
-        this.mp += this.level;
+        //this.hp += this.level;
+        //this.mp += this.level;
+        this.hp = this.hpMax;
+        this.mp = this.mpMax;
 
         this.level++;
         return true;
