@@ -1,6 +1,8 @@
 "use strict";
 
 import { HP_DESCRIPTIONS } from "../const.mjs";
+import { BASE_XP_FOR_LEVEL } from "../const.mjs";
+
 import { ArrayDataSource } from "../Util/ArrayDataSource.mjs";
 
 export class Actor {
@@ -8,6 +10,7 @@ export class Actor {
         const p = new ArrayDataSource( proto );
 
         this.name = p.fetchString();
+        this.level = p.fetchInt();
         this.hpMax = p.fetchInt();
         this.hp = this.hpMax;
         this.mpMax = p.fetchInt();
@@ -31,5 +34,25 @@ export class Actor {
             : Math.floor( ( 1.0 - baseRatio ) * descScale + 0.01 );
 
         return HP_DESCRIPTIONS[descIndex];
+    }
+
+    gainXp( amount ) {
+        this.xp += amount;
+
+        const xpForNextLevel = this.level * BASE_XP_FOR_LEVEL;
+
+        if ( this.xp < xpForNextLevel ) {
+            return false;
+        }
+
+        this.xp -= xpForNextLevel;
+
+        this.hpMax += this.level;
+        this.mpMax += this.level;
+        this.hp += this.level;
+        this.mp += this.level;
+
+        this.level++;
+        return true;
     }
 }

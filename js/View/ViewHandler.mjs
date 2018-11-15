@@ -11,11 +11,12 @@ export class ViewHandler {
         this.mainViewDom = doc.getElementById( "view" );
         this.ctrlDom = doc.getElementById( "ctrl" );
         this.msgDom = doc.getElementById( "msg" );
+        this.enemyDom = doc.getElementById( "enemy" );
 
         this.loader = doc.getElementById( "loader" );
         this.content = doc.getElementById( "content" );
 
-        [this.statsDom, this.invDom, this.mainViewDom, this.ctrlDom, this.msgDom]
+        [this.statsDom, this.invDom, this.mainViewDom, this.ctrlDom, this.msgDom, this.enemyDom]
             .forEach( x => MiscUtils.domClear( x ) );
     }
 
@@ -34,6 +35,12 @@ export class ViewHandler {
 
     setMessage( msg ) {
         this.msgDom.innerText = msg;
+    }
+
+    setEnemyMessage( enemy ) {
+        this.enemyDom.innerText = ( enemy === null )
+            ? ""
+            : "You see an enemy: " + enemy.name + " (" + enemy.getHpDescription() + ")";
     }
 
 }

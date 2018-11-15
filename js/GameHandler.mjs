@@ -1,7 +1,12 @@
 "use strict";
 
 import { APP_NAME } from "./const.mjs";
-import { ACTION_ATTACK, ACTION_ESCAPE } from "./const.mjs";
+import {
+    ACTION_ATTACK,
+    ACTION_ESCAPE,
+    ACTION_LOOT,
+    ACTION_IGNORE_LOOT,
+} from "./const.mjs";
 
 import { MiscUtils } from "./Util/MiscUtils.mjs";
 
@@ -54,6 +59,7 @@ export class GameHandler {
     startGame( heroProto ) {
         this.hero = new ActorModel( this.gameData.actorProtos.get( heroProto ) );
         this.hero.xp = 0;
+        this.hero.gold = 0;
         this.room = this.createRandomRoom();
         MiscUtils.domClear( this.viewHandler.ctrlDom );
 
@@ -64,11 +70,12 @@ export class GameHandler {
 
     explore( direction ) {
         this.setState( "exploring" );
+        this.enemy = null;
         ExploreViewController.show( this.viewHandler.ctrlDom, x => {
             this.room = this.createRandomRoom();
 
             if ( Math.random() < 0.4 ) {
-                this.fight();
+                this.combat();
                 return;
             }
 
@@ -78,12 +85,12 @@ export class GameHandler {
         this.update();
     }
 
-    fight() {
-        this.setState( "fighting" );
+    combat() {
+        this.setState( "combat" );
 
         this.enemy = this.createRandomEnemy();
 
-        this.message = "You see an enemy: " + this.enemy.name + " (" + this.enemy.getHpDescription() + ")";
+        //this.viewHandler.setEnemyMessage( this.enemy );
 
         FightViewController.show(
             this.viewHandler.ctrlDom,
@@ -92,8 +99,16 @@ export class GameHandler {
                     case ACTION_ATTACK:
                         this.attack();
                         if ( this.enemy.hp <= 0 ) {
-                            this.message = "You've defeated the " + this.enemy.name + ".";
+                            window.onkeyup = null;
+                            this.message = "You have completely defeated the " + this.enemy.name + ".";
+                            if ( this.hero.gainXp( this.enemy.xp ) ) {
+                                this.message += ".. You gain a level!";
+                            }
+                            this.enemy.xp = 0;
                             this.loot();
+                        } else if ( this.hero.hp <= 0 ) {
+                            window.onkeyup = null;
+                            this.die( "You're killed, dismembered and eaten by the bloodthirsty " + this.enemy.name + "." );
                         } else {
                             this.update();
                         }
@@ -115,7 +130,23 @@ export class GameHandler {
 
     loot() {
         this.setState( "looting" );
-        LootViewController.show( this.enemy );
+        LootViewController.show(
+            this.viewHandler.ctrlDom,
+            x => {
+                switch ( x ) {
+                    case ACTION_LOOT:
+                        this.message = "You take " + this.enemy.gold + " gold pieces from the body.";
+                        this.hero.gold += this.enemy.gold;
+                        this.enemy.gold = 0;
+                        this.explore();
+                        break;
+                    case ACTION_IGNORE_LOOT:
+                        this.message = "You leave the loot, wary of the possible traps, curses and dungeon predators.";
+                        this.explore();
+                        break;
+                }
+            }
+        );
         this.update();
     }
 
@@ -145,9 +176,7 @@ export class GameHandler {
     update() {
         this.stats.update( this.hero );
 
-        if ( this.enemy !== null ) {
-            this.message = "You see an enemy: " + this.enemy.name + " (" + this.enemy.getHpDescription() + ")";
-        }
+        this.viewHandler.setEnemyMessage( this.enemy );
         this.viewHandler.setMessage( this.message );
         this.viewHandler.setMainViewContent( this.room ? this.room.description : "" );
     }

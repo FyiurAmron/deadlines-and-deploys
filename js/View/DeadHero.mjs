@@ -10,9 +10,17 @@ export class DeadHero {
         btn.href = "#";
         btn.style.display = "block";
         btn.innerText = "Restart?";
-        btn.addEventListener( "click", evt => {
-            callback( evt );
+        const listener = ( evt => {
+            callback( evt ); // note: ATM this is completely redundant!
         } );
+        btn.addEventListener( "click", listener );
         dom.appendChild( btn );
+
+        window.onkeyup = function ( evt ) {
+            if ( evt.key === "r" ) {
+                window.onkeyup = null;
+                listener( evt );
+            }
+        }
     }
 }

@@ -1,13 +1,24 @@
 "use strict";
 
 export const APP_NAME = "Deadlines & Deploys";
+
 export const POSSIBLE_DIRS = ["north", "west", "south", "east"];
+
 export const ACTION_ATTACK = "attack";
 export const ACTION_ESCAPE = "escape";
+export const ACTION_LOOT = "loot";
+export const ACTION_IGNORE_LOOT = "ignore";
 export const POSSIBLE_COMBAT_ACTIONS = [
     ACTION_ATTACK,
     ACTION_ESCAPE,
 ];
+export const POSSIBLE_LOOT_ACTIONS = [
+    ACTION_LOOT,
+    ACTION_IGNORE_LOOT,
+];
+
+export const BASE_XP_FOR_LEVEL = 100;
+
 export const HP_DESCRIPTIONS = [
     "unhurt", // 1.0
     "barely scratched", // [0.9,1.0)
