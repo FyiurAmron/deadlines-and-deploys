@@ -16,6 +16,9 @@ export class Stats {
 
         Object.entries( hero ).forEach(
             ( [k, v] ) => {
+                if ( k === "frequency" ) {
+                    return;
+                }
                 const text = document.createTextNode( k.toUpperCase() + ": " + v );
                 const p = document.createElement( "P" );
                 p.appendChild( text );

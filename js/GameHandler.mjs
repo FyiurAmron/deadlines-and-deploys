@@ -47,6 +47,8 @@ export class GameHandler {
     }
 
     preGame() {
+        this.room = null;
+
         RaceSelectionViewController.show(
             this.viewHandler.ctrlDom,
             this.gameData.playableRaces,
@@ -181,11 +183,15 @@ export class GameHandler {
     }
 
     getEnemyMessage() {
-        return ( this.hero !== null && this.hero.hp <= 0 )
-            ? "You have been eaten by a grue."
-            : ( ( this.enemy === null )
-                ? "You see nobody here."
-                : "You see an enemy: " + this.enemy.name + " (" + this.enemy.getHpDescription() + ")" );
+        return ( this.hero === null )
+            ? ""
+            : ( ( this.hero.hp <= 0 )
+                    ? "You have been eaten by a grue."
+                    : ( ( this.enemy === null )
+                            ? "You see nobody here."
+                            : "You see an enemy: " + this.enemy.name + " (" + this.enemy.getHpDescription() + ")"
+                    )
+            );
     }
 
     update() {
@@ -193,7 +199,7 @@ export class GameHandler {
 
         this.viewHandler.setMessage( this.message );
         this.viewHandler.setEnemyMessage( this.getEnemyMessage() );
-        this.viewHandler.setMainViewContent( this.room ? this.room.description : "" );
+        this.viewHandler.setMainViewContent( this.room === null ? "" : this.room.description );
     }
 
     createRandomRoom() {
