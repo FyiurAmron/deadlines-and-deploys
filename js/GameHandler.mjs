@@ -75,8 +75,9 @@ export class GameHandler {
             this.room = this.createRandomRoom();
 
             if ( Math.random() < 0.4 ) {
-                this.combat();
-                return;
+                if ( this.combat() ) {
+                    return;
+                }
             }
 
             this.message = "You went " + x + ".";
@@ -86,9 +87,13 @@ export class GameHandler {
     }
 
     combat() {
-        this.setState( "combat" );
-
         this.enemy = this.createRandomEnemy();
+
+        if ( this.enemy === null ) {
+            return false;
+        }
+
+        this.setState( "combat" );
 
         //this.viewHandler.setEnemyMessage( this.enemy );
 
@@ -126,6 +131,8 @@ export class GameHandler {
         );
 
         this.update();
+
+        return true;
     }
 
     loot() {
@@ -162,7 +169,7 @@ export class GameHandler {
 
         DeadHeroViewController.show(
             this.viewHandler.ctrlDom,
-            this.preGame().bind( this )
+            this.preGame.bind( this )
         );
 
         this.update();
@@ -173,11 +180,19 @@ export class GameHandler {
         this.viewHandler.setTitle( APP_NAME + " :: " + state );
     }
 
+    getEnemyMessage() {
+        return ( this.hero !== null && this.hero.hp <= 0 )
+            ? "You have been eaten by a grue."
+            : ( ( this.enemy === null )
+                ? "You see nobody here."
+                : "You see an enemy: " + this.enemy.name + " (" + this.enemy.getHpDescription() + ")" );
+    }
+
     update() {
         this.stats.update( this.hero );
 
-        this.viewHandler.setEnemyMessage( this.enemy );
         this.viewHandler.setMessage( this.message );
+        this.viewHandler.setEnemyMessage( this.getEnemyMessage() );
         this.viewHandler.setMainViewContent( this.room ? this.room.description : "" );
     }
 
@@ -187,10 +202,45 @@ export class GameHandler {
 
     createRandomEnemy() {
         const protos = this.gameData.actorProtos;
-        return new ActorModel( protos.get( MiscUtils.randomElement( [...protos.keys()] ) ) );
+
+        for ( let i = 0; i < 10; i++ ) {
+            let proto = protos.get( MiscUtils.randomElement( [...protos.keys()] ) );
+            let actor = new ActorModel( proto );
+            if ( actor.level <= this.hero.level && actor.frequency >= Math.random() ) {
+                return actor;
+            }
+        }
+
+        return null;
+    }
+
+    heroAttack() {
+        const heroAttack = this.hero.attack( this.enemy );
+
+        if ( heroAttack === undefined ) {
+            return "You're incapacitated.";
+        }
+        if ( heroAttack === null ) {
+            return "You miss the " + this.enemy.name + ".";
+        }
+        return "You hit the " + this.enemy.name + " for " + heroAttack + " damage.";
+    }
+
+    enemyAttack() {
+        const enemyAttack = this.enemy.attack( this.hero );
+
+        if ( enemyAttack === undefined ) {
+            return this.enemy.name + " is incapacitated.";
+        }
+        if ( enemyAttack === null ) {
+            return this.enemy.name + " misses you.";
+        }
+        return this.enemy.name + " hits you for " + enemyAttack + " damage.";
     }
 
     attack() {
-        this.enemy.hp -= this.enemy.hpMax / 10;
+        this.message = ( this.hero.agility >= this.enemy.agility )
+            ? this.heroAttack() + " " + this.enemyAttack()
+            : this.enemyAttack() + " " + this.heroAttack();
     }
 }

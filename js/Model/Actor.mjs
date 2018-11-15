@@ -11,6 +11,7 @@ export class Actor {
 
         this.name = p.fetchString();
         this.level = p.fetchInt();
+        this.frequency = p.fetchFloat();
         this.hpMax = p.fetchInt();
         this.hp = this.hpMax;
         this.mpMax = p.fetchInt();
@@ -23,6 +24,19 @@ export class Actor {
         this.endurance = p.fetchInt();
         this.wisdom = p.fetchInt();
         this.intelligence = p.fetchInt();
+    }
+
+    attack( enemy ) {
+        if ( this.hp <= 0 ) {
+            return undefined;
+        }
+        const hitChance = 0.1 * ( 5 + this.dexterity - enemy.agility );
+        if ( Math.random() > hitChance ) {
+            return null;
+        }
+        const damage = Math.round( Math.random() * this.strength + 1 );
+        enemy.hp -= damage;
+        return damage;
     }
 
     getHpDescription() {

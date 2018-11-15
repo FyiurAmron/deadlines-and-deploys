@@ -9,8 +9,8 @@ export class ArrayDataSource {
         return "" + this.array.pop();
     }
 
-    fetchDouble() {
-        return parseDouble( this.array.pop() );
+    fetchFloat() {
+        return parseFloat( this.array.pop() );
     }
 
     fetchInt() {

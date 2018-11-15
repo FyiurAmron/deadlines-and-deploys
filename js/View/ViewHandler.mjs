@@ -37,10 +37,8 @@ export class ViewHandler {
         this.msgDom.innerText = msg;
     }
 
-    setEnemyMessage( enemy ) {
-        this.enemyDom.innerText = ( enemy === null )
-            ? ""
-            : "You see an enemy: " + enemy.name + " (" + enemy.getHpDescription() + ")";
+    setEnemyMessage( msg ) {
+        this.enemyDom.innerText = msg;
     }
 
 }
