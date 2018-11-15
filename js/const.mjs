@@ -2,6 +2,8 @@
 
 export const APP_NAME = "Deadlines & Deploys";
 
+export const DATA_SUFFIX = ".office";
+
 export const POSSIBLE_DIRS = ["north", "west", "south", "east"];
 
 export const ACTION_ATTACK = "attack";
