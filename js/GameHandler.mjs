@@ -48,6 +48,9 @@ export class GameHandler {
 
     preGame() {
         this.room = null;
+        this.message = null;
+        this.hero = null;
+        this.stats.hide();
 
         RaceSelectionViewController.show(
             this.viewHandler.ctrlDom,
@@ -175,6 +178,14 @@ export class GameHandler {
         );
 
         this.update();
+    }
+
+    win() {
+        this.state = "win";
+        this.message = "You won.";
+        this.room = new RoomModel( "You're in IT/CS heaven. Yay you. Sadly, somebody forgot to code it." );
+
+        alert( "Y O U   W O N.   G O   G E T   A   L I F E." );
     }
 
     setState( state ) {

@@ -7,6 +7,10 @@ export class Stats {
         this.statsDom = statsDom;
     }
 
+    hide() {
+        MiscUtils.domClear( this.statsDom );
+    }
+
     update( hero ) {
         MiscUtils.domClear( this.statsDom );
 
