@@ -7,10 +7,20 @@ export class Stats {
         this.statsDom = statsDom;
     }
 
+    addStatBox( text ) {
+        const textNode = document.createTextNode( text );
+        const p = document.createElement( "P" );
+        p.appendChild( textNode );
+        this.statsDom.appendChild( p );
+    }
+
     hide() {
         MiscUtils.domClear( this.statsDom );
     }
 
+    /**
+     * @param {Actor} hero
+     */
     update( hero ) {
         MiscUtils.domClear( this.statsDom );
 
@@ -18,16 +28,21 @@ export class Stats {
             return;
         }
 
-        Object.entries( hero ).forEach(
-            ( [k, v] ) => {
-                if ( k === "frequency" ) {
-                    return;
-                }
-                const text = document.createTextNode( k.toUpperCase() + ": " + v );
-                const p = document.createElement( "P" );
-                p.appendChild( text );
-                this.statsDom.appendChild( p );
-            }
-        );
+        const statBoxes = [
+            "Name: " + hero.name,
+            "HP: " + hero.hp + "/" + hero.hpMax,
+            "MP: " + hero.mp + "/" + hero.mpMax,
+            "$$: " + hero.gold,
+            "Str: " + hero.strength,
+            "Dex: " + hero.dexterity,
+            "Agi: " + hero.agility,
+            "End: " + hero.endurance,
+            "Wis: " + hero.wisdom,
+            "Int: " + hero.intelligence,
+        ];
+
+        for ( const statBox of statBoxes ) {
+            this.addStatBox( statBox );
+        }
     }
 }
