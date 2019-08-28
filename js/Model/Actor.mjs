@@ -1,9 +1,9 @@
-"use strict";
+'use strict';
 
-import { HP_DESCRIPTIONS } from "../const.mjs";
-import { BASE_XP_FOR_LEVEL } from "../const.mjs";
+import { HP_DESCRIPTIONS } from '../const.mjs';
+import { BASE_XP_FOR_LEVEL } from '../const.mjs';
 
-import { ArrayDataSource } from "../Util/ArrayDataSource.mjs";
+import { ArrayDataSource } from '../Util/ArrayDataSource.mjs';
 
 export class Actor {
     constructor( proto ) {

@@ -1,6 +1,6 @@
-"use strict";
+'use strict';
 
-import { MiscUtils } from "../Util/MiscUtils.mjs";
+import { MiscUtils } from '../Util/MiscUtils.mjs';
 
 export class Stats {
     constructor( statsDom ) {
@@ -9,7 +9,7 @@ export class Stats {
 
     addStatBox( text ) {
         const textNode = document.createTextNode( text );
-        const p = document.createElement( "P" );
+        const p = document.createElement( 'P' );
         p.appendChild( textNode );
         this.statsDom.appendChild( p );
     }
@@ -29,16 +29,16 @@ export class Stats {
         }
 
         const statBoxes = [
-            "Name: " + hero.name,
-            "HP: " + hero.hp + "/" + hero.hpMax,
-            "MP: " + hero.mp + "/" + hero.mpMax,
-            "$$: " + hero.gold,
-            "Str: " + hero.strength,
-            "Dex: " + hero.dexterity,
-            "Agi: " + hero.agility,
-            "End: " + hero.endurance,
-            "Wis: " + hero.wisdom,
-            "Int: " + hero.intelligence,
+            'Name: ' + hero.name,
+            'HP: ' + hero.hp + '/' + hero.hpMax,
+            'MP: ' + hero.mp + '/' + hero.mpMax,
+            '$$: ' + hero.gold,
+            'Str: ' + hero.strength,
+            'Dex: ' + hero.dexterity,
+            'Agi: ' + hero.agility,
+            'End: ' + hero.endurance,
+            'Wis: ' + hero.wisdom,
+            'Int: ' + hero.intelligence,
         ];
 
         for ( const statBox of statBoxes ) {

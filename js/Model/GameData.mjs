@@ -1,6 +1,6 @@
-"use strict";
+'use strict';
 
-import { DATA_SUFFIX } from "../const.mjs";
+import { DATA_SUFFIX } from '../const.mjs';
 
 export class GameData {
     constructor( loader ) {
@@ -12,9 +12,9 @@ export class GameData {
     }
 
     async init() {
-        const actorProtosRaw = await this.loader.load( "./data/actorProtos" + DATA_SUFFIX + ".csv" );
-        const playableRacesRaw = await this.loader.load( "./data/playableRaces" + DATA_SUFFIX + ".csv" );
-        const locationsRaw = await this.loader.load( "./data/locations" + DATA_SUFFIX + ".csv" );
+        const actorProtosRaw = await this.loader.load( './data/actorProtos' + DATA_SUFFIX + '.csv' );
+        const playableRacesRaw = await this.loader.load( './data/playableRaces' + DATA_SUFFIX + '.csv' );
+        const locationsRaw = await this.loader.load( './data/locations' + DATA_SUFFIX + '.csv' );
 
         this.actorProtos = actorProtosRaw.slice( 1 )
             .reduce(

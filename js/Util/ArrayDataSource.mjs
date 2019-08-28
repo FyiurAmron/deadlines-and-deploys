@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 export class ArrayDataSource {
     constructor( array ) {
@@ -6,7 +6,7 @@ export class ArrayDataSource {
     }
 
     fetchString() {
-        return "" + this.array.pop();
+        return '' + this.array.pop();
     }
 
     fetchFloat() {
