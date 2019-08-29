@@ -18,6 +18,7 @@ export const POSSIBLE_LOOT_ACTIONS = [
     ACTION_LOOT,
     ACTION_IGNORE_LOOT,
 ];
+export const POSSIBLE_DEATH_OPTIONS = ['Restart?'];
 
 export const COMBAT_ROOM_CHANCE = 0.4;
 
