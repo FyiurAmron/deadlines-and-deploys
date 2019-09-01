@@ -55,8 +55,8 @@ export class GameHandler {
 
         RaceSelectionViewController.show(
             this.viewHandler.ctrlDom,
+            this.startGame.bind( this ),
             this.gameData.playableRaces,
-            this.startGame.bind( this )
         );
 
         this.update();
@@ -74,7 +74,8 @@ export class GameHandler {
         this.explore();
     }
 
-    explore( direction ) {
+  // noinspection JSUnusedLocalSymbols
+  explore( direction ) {
         this.setState( 'exploring' );
         this.enemy = null;
         ExploreViewController.show( this.viewHandler.ctrlDom, x => {
