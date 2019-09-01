@@ -1,7 +1,7 @@
 'use strict';
 
 export class Room {
-    constructor( description ) {
-        this.description = description;
-    }
+  constructor( description ) {
+    this.description = description;
+  }
 }
